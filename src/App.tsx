@@ -1,54 +1,54 @@
-import React, { FormEvent } from "react";
-import BreakiWord from "Components/BreakiWord";
-import { useAppSelector, useAppDispatch } from "hooks";
+import React, { FormEvent } from 'react'
+import BreakiWord from 'Components/BreakiWord'
+import { useAppSelector, useAppDispatch } from 'hooks'
 import {
   selectForm,
   changeName,
   changeLastName,
   breakifyAsync,
-} from "features/form";
-import Utils from "Utils";
+} from 'features/form'
+import Utils from 'Utils'
 
-const { defaultForm } = Utils.Constants;
+const { defaultForm } = Utils.Constants
 
 function App() {
-  const form = useAppSelector(selectForm);
+  const form = useAppSelector(selectForm)
 
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
 
   const handleChangeName = (value: string) => {
-    dispatch(changeName(value));
+    dispatch(changeName(value))
     if (form.breakify) {
-      dispatch(breakifyAsync(false));
+      dispatch(breakifyAsync(false))
     }
-  };
+  }
 
   const handleChangeLastName = (value: string) => {
-    dispatch(changeLastName(value));
+    dispatch(changeLastName(value))
     if (form.breakify) {
-      dispatch(breakifyAsync(false));
+      dispatch(breakifyAsync(false))
     }
-  };
+  }
 
   const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault()
     if (!form.breakify) {
-      dispatch(breakifyAsync(true));
+      dispatch(breakifyAsync(true))
     }
-  };
+  }
 
   const handleFormReset = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    dispatch(changeName(defaultForm.name));
-    dispatch(changeLastName(defaultForm.lastName));
+    e.preventDefault()
+    dispatch(changeName(defaultForm.name))
+    dispatch(changeLastName(defaultForm.lastName))
     if (form.breakify) {
-      dispatch(breakifyAsync(false));
+      dispatch(breakifyAsync(false))
     }
-  };
+  }
 
   return (
     <main className="bg-[#212121] flex h-screen justify-center items-center">
-      {form.status === "loading" && (
+      {form.status === 'loading' && (
         <div className="absolute bg-black bg-opacity-50 text-2xl flex top-0 left-0 w-full h-screen justify-center items-center text-white font-black z-10">
           Loading...
         </div>
@@ -109,7 +109,7 @@ function App() {
         </form>
       </div>
     </main>
-  );
+  )
 }
 
-export default App;
+export default App

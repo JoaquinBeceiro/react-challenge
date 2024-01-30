@@ -1,17 +1,17 @@
-import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
-import formReducer from "features/form";
+import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
+import formReducer from 'features/form'
 
 export const store = configureStore({
   reducer: {
     form: formReducer,
   },
-});
+})
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch
 export type AppThunk<ReturnType = void> = ThunkAction<
   ReturnType,
   RootState,
   unknown,
   Action<string>
->;
+>

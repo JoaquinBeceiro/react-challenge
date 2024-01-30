@@ -1,44 +1,44 @@
-import Utils from "Utils";
+import Utils from 'Utils'
 
-const elements = Utils.Elements.elementsSymbols;
+const elements = Utils.Elements.elementsSymbols
 
 type BreakiWordProps = {
-  word: string;
-  show: boolean;
-};
+  word: string
+  show: boolean
+}
 
 function BreakiWord({ word, show }: BreakiWordProps) {
-  const lowerCaseWord = word.toLocaleLowerCase();
+  const lowerCaseWord = word.toLocaleLowerCase()
 
   const allCombinations = lowerCaseWord
-    .split("")
+    .split('')
     .reduce((acc, value, index, original) => {
       if (original[index + 1] !== undefined) {
-        acc.push(`${value}${original[index + 1]}`);
+        acc.push(`${value}${original[index + 1]}`)
       }
-      return acc;
-    }, [] as string[]);
+      return acc
+    }, [] as string[])
 
   const element = allCombinations.find((combination) =>
     elements.includes(combination)
-  );
+  )
 
-  const occurrence: number | "" | undefined =
-    element && lowerCaseWord.indexOf(element);
+  const occurrence: number | '' | undefined =
+    element && lowerCaseWord.indexOf(element)
 
   if (
     !show ||
     occurrence === undefined ||
-    occurrence === "" ||
+    occurrence === '' ||
     element === undefined
   ) {
-    return <h2 className="font-bold capitalize mb-20">{word}</h2>;
+    return <h2 className="font-bold capitalize mb-20">{word}</h2>
   }
 
-  const findSymbol = Utils.Elements.findElementBySymbol(element);
+  const findSymbol = Utils.Elements.findElementBySymbol(element)
 
-  const firstText = lowerCaseWord.substring(0, occurrence);
-  const lastText = lowerCaseWord.substring(occurrence + 2);
+  const firstText = lowerCaseWord.substring(0, occurrence)
+  const lastText = lowerCaseWord.substring(occurrence + 2)
 
   return (
     <h2 className="font-bold capitalize mb-20">
@@ -58,7 +58,7 @@ function BreakiWord({ word, show }: BreakiWordProps) {
       </span>
       {lastText && <span className="lowercase">{lastText}</span>}
     </h2>
-  );
+  )
 }
 
-export default BreakiWord;
+export default BreakiWord
