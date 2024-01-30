@@ -1,41 +1,62 @@
 import React, { FormEvent } from "react";
-import { useState } from "react";
-// import BreakiWord from "@/Components/BreakiWord";
 import BreakiWord from "Components/BreakiWord";
+import { useAppSelector, useAppDispatch } from "hooks";
+import {
+  selectForm,
+  changeName,
+  changeLastName,
+  breakifyAsync,
+} from "features/form";
+import Utils from "Utils";
+
+const { defaultForm } = Utils.Constants;
 
 function App() {
-  const [name, setName] = useState<string>("Breaking");
-  const [lastName, setLastName] = useState<string>("Bad");
-  const [breakify, setBreakify] = useState<boolean>(false);
+  const form = useAppSelector(selectForm);
+
+  const dispatch = useAppDispatch();
 
   const handleChangeName = (value: string) => {
-    setBreakify(false);
-    setName(value);
+    dispatch(changeName(value));
+    if (form.breakify) {
+      dispatch(breakifyAsync(false));
+    }
   };
 
   const handleChangeLastName = (value: string) => {
-    setBreakify(false);
-    setLastName(value);
+    dispatch(changeLastName(value));
+    if (form.breakify) {
+      dispatch(breakifyAsync(false));
+    }
   };
 
   const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setBreakify(true);
+    if (!form.breakify) {
+      dispatch(breakifyAsync(true));
+    }
   };
 
   const handleFormReset = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setName("");
-    setLastName("");
-    setBreakify(false);
+    dispatch(changeName(defaultForm.name));
+    dispatch(changeLastName(defaultForm.lastName));
+    if (form.breakify) {
+      dispatch(breakifyAsync(false));
+    }
   };
 
   return (
     <main className="bg-[#212121] flex h-screen justify-center items-center">
+      {form.status === "loading" && (
+        <div className="absolute bg-black bg-opacity-50 text-2xl flex top-0 left-0 w-full h-screen justify-center items-center text-white font-black z-10">
+          Loading...
+        </div>
+      )}
       <div className="min-w-[600px]">
         <div className="text-white text-9xl mb-10 text-center">
-          <BreakiWord word={name} show={breakify} />
-          <BreakiWord word={lastName} show={breakify} />
+          <BreakiWord word={form.name} show={form.breakify} />
+          <BreakiWord word={form.lastName} show={form.breakify} />
         </div>
         <form
           className="flex flex-col gap-5"
@@ -56,7 +77,7 @@ function App() {
                 type="text"
                 placeholder="John"
                 onChange={(e) => handleChangeName(e.target.value)}
-                value={name}
+                value={form.name}
               />
             </div>
             <div className="mb-4 flex-1">
@@ -72,7 +93,7 @@ function App() {
                 type="text"
                 placeholder="Doe"
                 onChange={(e) => handleChangeLastName(e.target.value)}
-                value={lastName}
+                value={form.lastName}
               />
             </div>
           </div>

@@ -50,6 +50,11 @@ function BreakiWord({ word, show }: BreakiWordProps) {
             {findSymbol.name}
           </div>
         )}
+        {findSymbol && (
+          <div className="absolute top-1 right-1 text-base">
+            {findSymbol.number}
+          </div>
+        )}
       </span>
       {lastText && <span className="lowercase">{lastText}</span>}
     </h2>
